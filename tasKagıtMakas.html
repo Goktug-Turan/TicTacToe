@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hack live</title>
+  <script>
+    function tasKagitMakas(usersChoice) {
+      // # Tas kagit makas
+      // makas kagiti kesiyor
+      // kagit tasi kapliyor
+      // tas makasi kiriyor
+      const tas = 0
+      const kagit = 1
+      const makas = 2
+      let selections = ["tas", "kagit", "makas"]
+
+      const comp = Math.floor(Math.random() * selections.length)
+      const user = usersChoice
+      const sc = selections[comp]
+      const su = selections[user]
+
+      console.log(`Computer: ${sc}`)
+      console.log(`User: ${su}`)
+
+      const kimKimiYener = {
+        tas: selections[makas],
+        makas: selections[kagit],
+        kagit: selections[tas]
+      }
+
+      if (su === sc) { return "no winner" }
+      if (kimKimiYener[su] === sc) { return "You win" }
+      return "You lose"
+
+
+
+      // ifli versiyon
+      // if (comp === user) {
+      //   return "no winner"
+      // } else if (comp === tas && user === makas) {
+      //   return "you lose"
+      // } else if (comp === tas && user === kagit) {
+      //   return "you win"
+      // } else if (comp === makas && user === kagit) {
+      //   return "you lose"
+      // } else if (comp === makas && user === tas) {
+      //   return "you win"
+      // } else if (comp === kagit && user === tas) {
+      //   return "you lose"
+      // } else if (comp === kagit && user === makas) {
+      //   return "you win"
+      // }
+
+
+      // looplu versiyon
+      // const possibleResults = [
+      //   [tas, tas, "no winner"],
+      //   [kagit, kagit, "no winner"],
+      //   [makas, makas, "no winner"],
+      //   [tas, kagit, "you win"],
+      //   [kagit, makas, "you win"],
+      //   [makas, tas, "you win"],
+      //   [tas, makas, "you lose"],
+      //   [kagit, tas, "you lose"],
+      //   [makas, kagit, "you lose"],
+      // ]
+
+      // for (let i = 0; i < possibleResults.length; i+= 1) {
+      //   const cur = possibleResults[i]
+      //   if (comp === cur[0] && user === cur[1]) {
+      //     return cur[2]
+      //   }
+      // }
+    }
+
+    const returnValue = tasKagitMakas(2)
+    console.log(returnValue)
+  </script>
+</head>
+<body>
+
+</body>
+</html>
