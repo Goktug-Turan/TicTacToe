@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Player TicTacToe</title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            background-color: rgb(24, 24, 24);
+            font-size: 25px;
+        }
+        
+        .board {
+            background-color: #ccc;
+            height: 492px;
+            padding: 1px;
+            width: 492px;
+            margin: auto;
+            /* winNumber*width + 12 */
+        }
+        
+        .cell {
+            float: left;
+            height: 80px;
+            margin: 1px;
+            width: 80px;
+            line-height: 70px;
+            font-size: 50px;
+            font-family: "Permanent Marker", cursive;
+        }
+    </style>
+
+
+</head>
+<!-- 
+    ** user interface i yap
+    ** tahta NxN olarak seçilebilir değil henüz
+-->
+
+<body>
+
+    <script>
+        let boardSize = 6;
+        let winNumber = 3;
+        var gameState = [
+            [1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1]
+        ];
+        let turn = "X";
+        let round = 1;
+        let gameOver = false;
+
+        function put(indexRow,
+            indexCol) {
+            if (gameState[indexRow][indexCol] !== 1) return;
+            if (gameOver) return;
+            gameState[indexRow][indexCol] = turn;
+            document.getElementById(`${indexRow},${indexCol}`).innerHTML = `${turn}`
+            gameOver = isGameOver(indexRow, indexCol);
+            if (gameOver) {
+                console.log(`game over, ${turn} has won`)
+            };
+            if (round === boardSize ** 2) {
+                console.log(`Game ended in a draw!`)
+            };
+            turn = (turn === "X") ? "O" : "X";
+            round += 1;
+            console.log(gameState);
+        };
+
+        function isGameOver(indexRow, indexCol) {
+            let isIncludeX = "X".repeat(winNumber);
+            let isIncludeO = "O".repeat(winNumber);
+            // horizontal check 
+            let horizontalCounter = "";
+            for (i = 0; i(gameState.length); i++) {
+                horizontalCounter += gameState[indexRow][i];
+            };
+            if (horizontalCounter.includes(isIncludeX) || horizontalCounter.includes(isIncludeO)) {
+                return true;
+            };
+            // vertical check
+            let verticalCounter = "";
+            for (i = 0; i < gameState.length; i++) {
+                verticalCounter += gameState[i][indexCol];
+            };
+            if (verticalCounter.includes(isIncludeX) || verticalCounter.includes(isIncludeO)) {
+                return true;
+            };
+            // left cross check
+            function leftCrossCheck(checkStop, rowIndex, colIndex) {
+                var leftCrossCounter = "";
+                for (i = 0; i < gameState.length - checkStop; i++) {
+                    leftCrossCounter += gameState[rowIndex + i][colIndex + i];
+                };
+                if (leftCrossCounter.includes(isIncludeX) || leftCrossCounter.includes(isIncludeO)) {
+                    return true;
+                };
+                return false;
+            };
+            if (indexRow > indexCol) {
+                if (leftCrossCheck(indexRow - indexCol, indexRow - indexCol, 0)) {
+                    return true;
+                }
+            } else if (indexRow <
+                indexCol) {
+                if (leftCrossCheck(indexCol - indexRow, 0, indexCol - indexRow)) {
+                    return true;
+                }
+            } else if (indexCol = indexRow) {
+                if (leftCrossCheck(indexRow - indexCol, 0, 0)) {
+                    return true;
+                }
+            };
+            // right cross check
+            function rightCrossCheck(checkStop, rowIndex, colIndex) {
+                var rightCrossCounter = "";
+                for (i = 0; i <= checkStop; i++) {
+                    rightCrossCounter += gameState[rowIndex + i][colIndex - i];
+                };
+                if (rightCrossCounter.includes(isIncludeX) || rightCrossCounter.includes(isIncludeO)) {
+                    return true;
+                };
+                return false;
+            };
+            if (indexRow + indexCol > (gameState.length - 2)) {
+                let rowCheckStarter = indexRow - ((gameState.length - 1) - indexCol);
+                if (rightCrossCheck((gameState.length - 1) - rowCheckStarter, rowCheckStarter, 5)) {
+                    return true;
+                }
+            } else if (indexRow + indexCol <= (gameState.length - 2)) {
+                if (rightCrossCheck(indexCol + indexRow, 0, indexCol + indexRow)) {
+                    return true;
+                }
+            };
+            ////////////
+            return false;
+        }
+        // GUI design: 
+        const body = document.body;
+        const gameContainer = document.createElement("div");
+        gameContainer.setAttribute("class", "board");
+        body.append(gameContainer);
+        fragment = document.createDocumentFragment();
+        for (i = 0; i < boardSize; ++i) {
+            for (j = 0; j < boardSize; ++j) {
+                var button = document.createElement('button');
+                button.setAttribute("id", `${i},${j}`);
+                button.setAttribute("class", "cell");
+                button.setAttribute("onclick", `put(${i},${j})`);
+                fragment.appendChild(button);
+            }
+        };
+        gameContainer.appendChild(fragment);
+    </script>
+
+</body>
+
+</html>
+
+</html>
